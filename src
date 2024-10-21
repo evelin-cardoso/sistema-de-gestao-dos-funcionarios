@@ -1,0 +1,130 @@
+-- Criação da tabela de Departamentos
+CREATE TABLE departamentos (
+    id_departamento INT AUTO_INCREMENT PRIMARY KEY,
+    nome_departamento VARCHAR(100) NOT NULL,
+    localizacao VARCHAR(100)
+);
+
+-- Criação da tabela de Cargos
+CREATE TABLE cargos (
+    id_cargo INT AUTO_INCREMENT PRIMARY KEY,
+    nome_cargo VARCHAR(100) NOT NULL,
+    salario DECIMAL(10, 2)
+);
+
+-- Criação da tabela de Benefícios
+CREATE TABLE beneficios (
+    id_beneficio INT AUTO_INCREMENT PRIMARY KEY,
+    descricao VARCHAR(100) NOT NULL
+);
+
+-- Criação da tabela de Endereços
+CREATE TABLE enderecos (
+    id_endereco INT AUTO_INCREMENT PRIMARY KEY,
+    rua VARCHAR(100) NOT NULL,
+    cidade VARCHAR(100) NOT NULL,
+    estado VARCHAR(50),
+    cep VARCHAR(20)
+);
+
+-- Criação da tabela de Funcionários
+CREATE TABLE funcionarios (
+    id_funcionario INT AUTO_INCREMENT PRIMARY KEY,
+    nome_funcionario VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    telefone VARCHAR(20),
+    data_contratacao DATE NOT NULL,
+    id_departamento INT,
+    id_cargo INT,
+    id_endereco INT,
+    FOREIGN KEY (id_departamento) REFERENCES departamentos(id_departamento),
+    FOREIGN KEY (id_cargo) REFERENCES cargos(id_cargo),
+    FOREIGN KEY (id_endereco) REFERENCES enderecos(id_endereco)
+);
+
+-- Criação da tabela de Histórico de Funcionários
+CREATE TABLE historico_funcionarios (
+    id_historico INT AUTO_INCREMENT PRIMARY KEY,
+    id_funcionario INT,
+    id_departamento INT,
+    id_cargo INT,
+    data_movimentacao DATE NOT NULL,
+    FOREIGN KEY (id_funcionario) REFERENCES funcionarios(id_funcionario),
+    FOREIGN KEY (id_departamento) REFERENCES departamentos(id_departamento),
+    FOREIGN KEY (id_cargo) REFERENCES cargos(id_cargo)
+);
+
+-- Criação da tabela de Projetos
+CREATE TABLE projetos (
+    id_projeto INT AUTO_INCREMENT PRIMARY KEY,
+    nome_projeto VARCHAR(100) NOT NULL,
+    descricao TEXT,
+    data_inicio DATE,
+    data_fim DATE
+);
+
+-- Criação da tabela de Funcionários_Projetos (relação muitos-para-muitos)
+CREATE TABLE funcionarios_projetos (
+    id_funcionario INT,
+    id_projeto INT,
+    data_inicio_projeto DATE NOT NULL,
+    PRIMARY KEY (id_funcionario, id_projeto),
+    FOREIGN KEY (id_funcionario) REFERENCES funcionarios(id_funcionario),
+    FOREIGN KEY (id_projeto) REFERENCES projetos(id_projeto)
+);
+
+-- Criação da tabela de Funcionários_Benefícios (relação muitos-para-muitos)
+CREATE TABLE funcionarios_beneficios (
+    id_funcionario INT,
+    id_beneficio INT,
+    data_recebimento DATE NOT NULL,
+    PRIMARY KEY (id_funcionario, id_beneficio),
+    FOREIGN KEY (id_funcionario) REFERENCES funcionarios(id_funcionario),
+    FOREIGN KEY (id_beneficio) REFERENCES beneficios(id_beneficio)
+);
+
+-- Inserir departamentos
+INSERT INTO departamentos (nome_departamento, localizacao) VALUES 
+('TI', 'Edifício Central'),
+('Recursos Humanos', 'Prédio Administrativo'),
+('Financeiro', 'Edifício Financeiro');
+
+-- Inserir cargos
+INSERT INTO cargos (nome_cargo, salario) VALUES 
+('Desenvolvedor', 5000.00),
+('Analista de RH', 4000.00),
+('Gerente Financeiro', 7000.00);
+
+-- Inserir endereços
+INSERT INTO enderecos (rua, cidade, estado, cep) VALUES 
+('Rua A', 'Florianópolis', 'SC', '88020-100'),
+('Rua B', 'São José', 'SC', '88100-200'),
+('Rua C', 'Palhoça', 'SC', '88200-300');
+
+-- Inserir funcionários
+INSERT INTO funcionarios (nome_funcionario, email, telefone, data_contratacao, id_departamento, id_cargo, id_endereco) VALUES 
+('Carlos Silva', 'carlos.silva@empresa.com', '48999999999', '2023-01-15', 1, 1, 1),
+('Maria Oliveira', 'maria.oliveira@empresa.com', '48988888888', '2022-07-10', 2, 2, 2),
+('Pedro Santos', 'pedro.santos@empresa.com', '48977777777', '2021-03-20', 3, 3, 3);
+
+-- Inserir benefícios
+INSERT INTO beneficios (descricao) VALUES 
+('Plano de Saúde'),
+('Vale Alimentação'),
+('Vale Transporte');
+
+-- Inserir funcionários_benefícios
+INSERT INTO funcionarios_beneficios (id_funcionario, id_beneficio, data_recebimento) VALUES 
+(1, 1, '2023-01-16'),
+(1, 2, '2023-01-16'),
+(2, 3, '2022-07-11');
+
+-- Inserir projetos
+INSERT INTO projetos (nome_projeto, descricao, data_inicio, data_fim) VALUES 
+('Sistema de ERP', 'Desenvolvimento de um sistema de gestão empresarial', '2023-01-01', '2023-12-31'),
+('Recrutamento Automático', 'Automatização do processo de recrutamento', '2022-05-01', '2022-10-01');
+
+-- Associar funcionários a projetos
+INSERT INTO funcionarios_projetos (id_funcionario, id_projeto, data_inicio_projeto) VALUES 
+(1, 1, '2023-01-01'),
+(2, 2, '2022-05-01');
