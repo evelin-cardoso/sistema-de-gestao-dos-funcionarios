@@ -1,0 +1,97 @@
+Sistema de Gestão de Funcionários
+Este projeto é um Sistema de Gestão de Funcionários construído em MySQL. Ele oferece uma estrutura completa para gerenciar departamentos, cargos, funcionários, benefícios, projetos, e o histórico de movimentações dentro de uma empresa.
+
+Estrutura do Banco de Dados
+O banco de dados consiste nas seguintes tabelas:
+
+departamentos: Armazena os departamentos da empresa.
+cargos: Contém os cargos dos funcionários, incluindo salários.
+beneficios: Lista os benefícios disponíveis para os funcionários.
+enderecos: Registra os endereços dos funcionários.
+funcionarios: Contém os dados dos funcionários e suas relações com departamentos, cargos e endereços.
+historico_funcionarios: Registra movimentações de funcionários (como mudança de cargo ou departamento).
+projetos: Armazena informações sobre projetos da empresa.
+funcionarios_projetos: Tabela de relacionamento muitos-para-muitos entre funcionários e projetos.
+funcionarios_beneficios: Tabela de relacionamento muitos-para-muitos entre funcionários e benefícios.
+Como Executar o Script
+Pré-requisitos
+MySQL instalado em sua máquina.
+Um banco de dados criado no MySQL para receber as tabelas.
+Passos
+Clone este repositório:
+
+bash
+Copiar código
+git clone https://github.com/seu-usuario/sistema-gestao-funcionarios.git
+Acesse a pasta do projeto:
+
+bash
+Copiar código
+cd sistema-gestao-funcionarios
+Execute o script SQL no MySQL:
+
+Você pode usar o MySQL Workbench ou a linha de comando do MySQL para executar o arquivo SQL.
+
+bash
+Copiar código
+mysql -u seu_usuario -p < script.sql
+Ou, se estiver utilizando o MySQL Workbench:
+
+Abra o MySQL Workbench.
+Selecione o banco de dados.
+Copie e cole o conteúdo do arquivo SQL no editor e execute.
+Tabelas e Relacionamentos
+departamentos: Armazena os diferentes setores da empresa.
+
+id_departamento (chave primária)
+nome_departamento
+localizacao
+cargos: Contém as funções desempenhadas pelos funcionários.
+
+id_cargo (chave primária)
+nome_cargo
+salario
+funcionarios: Armazena as informações dos funcionários e suas relações com cargos e departamentos.
+
+id_funcionario (chave primária)
+nome_funcionario
+email
+telefone
+data_contratacao
+id_departamento (chave estrangeira)
+id_cargo (chave estrangeira)
+id_endereco (chave estrangeira)
+beneficios: Lista os benefícios que os funcionários podem receber.
+
+id_beneficio (chave primária)
+descricao
+funcionarios_beneficios: Relaciona os funcionários com os benefícios que eles recebem.
+
+id_funcionario (chave estrangeira)
+id_beneficio (chave estrangeira)
+data_recebimento
+projetos: Armazena os projetos em que os funcionários estão envolvidos.
+
+id_projeto (chave primária)
+nome_projeto
+descricao
+data_inicio
+data_fim
+funcionarios_projetos: Relaciona funcionários e os projetos que eles participam.
+
+id_funcionario (chave estrangeira)
+id_projeto (chave estrangeira)
+data_inicio_projeto
+Dados Fictícios
+O script também inclui exemplos de dados fictícios para facilitar o teste do sistema, como:
+
+Funcionários: Carlos Silva, Maria Oliveira, Pedro Santos.
+Departamentos: TI, Recursos Humanos, Financeiro.
+Cargos: Desenvolvedor, Analista de RH, Gerente Financeiro.
+Benefícios: Plano de Saúde, Vale Alimentação, Vale Transporte.
+Projetos: Sistema de ERP, Recrutamento Automático.
+Contribuição
+Contribuições são bem-vindas! Sinta-se à vontade para abrir um pull request ou relatar um problema.
+
+Licença
+Este projeto está sob a licença MIT. Consulte o arquivo LICENSE para mais detalhes.
